@@ -19,6 +19,7 @@ flake8 = "*"
 black = "*"
 types-pillow = "*"
 types-requests = "*"
+scipy-stubs = "*"
 
 [requires]
 python_version = "3.12"

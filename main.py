@@ -38,7 +38,7 @@ def load_pipeline() -> StableDiffusionImg2ImgPipeline:
         logging.info(f"Initializing pipeline with device: {device}, dtype: {dtype}")
 
         # Initialize pipeline with appropriate device settings
-        pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(  # type: ignore[no-untyped-call]
+        pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(
             "runwayml/stable-diffusion-v1-5",
             torch_dtype=dtype,
             use_safetensors=True,
@@ -136,12 +136,12 @@ def process_image(
 
         # Adjust the number of inference steps and eta for less graininess
         adjusted_steps = max(
-            5, preset_config["num_inference_steps"] - 5
+            5, preset_config["num_inference_steps"] - 5  # type: ignore[operator]
         )  # Reduce steps
         adjusted_eta = 0.1  # Lower eta for less noise
 
         with torch.inference_mode():
-            pipeline_result = pipeline(
+            pipeline_result = pipeline(  # type: ignore[operator]
                 prompt=preset_config["prompt"],
                 negative_prompt=preset_config["negative_prompt"],
                 image=input_image,
