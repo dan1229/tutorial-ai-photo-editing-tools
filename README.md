@@ -2,57 +2,80 @@
 
 #### By [Daniel Nazarian](https://danielnazarian.com)
 
-[![Black](https://github.com/dan1229/ai-photo-editor/actions/workflows/python-checks.yml/badge.svg?branch=main&event=push&job=black)](https://github.com/dan1229/ai-photo-editor/actions/workflows/python-checks.yml)
-[![Flake8](https://github.com/dan1229/ai-photo-editor/actions/workflows/python-checks.yml/badge.svg?branch=main&event=push&job=flake8)](https://github.com/dan1229/ai-photo-editor/actions/workflows/python-checks.yml)
-[![Types](https://github.com/dan1229/ai-photo-editor/actions/workflows/python-checks.yml/badge.svg?branch=main&event=push&job=mypy)](https://github.com/dan1229/ai-photo-editor/actions/workflows/python-checks.yml)
+[![Black](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml/badge.svg?branch=main&event=push&job=black)](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml)
+[![Flake8](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml/badge.svg?branch=main&event=push&job=flake8)](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml)
+[![Types](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml/badge.svg?branch=main&event=push&job=mypy)](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml)
 
-A Python-based tool that uses Stable Diffusion to enhance images. This tool can process entire directories of images, improving their quality, lighting, and details using various specialized presets. Perfect for batch processing photos for professional use, social media, or portfolio enhancement.
 
-TODO - add link to blog post
+## Description
 
-## Features
-- Batch process multiple images in a directory
-- Multiple enhancement presets (Natural, Subtle, Maximum quality)
-- Sample mode to preview all presets
-- Graceful handling of interruptions (Ctrl+C)
-- GPU acceleration (when available)
-- Automatic output directory creation
-- Detailed enhancement metadata logging
+**TODO - add link to blog post**
 
-## Requirements
+Learn how to use open source AI models to enhance photos in bulk using Python and Stable Diffusion. This tutorial demonstrates how to build a practical tool for automatically improving image quality, lighting, and details across entire directories of photos.
+
+### What You'll Learn
+- How to use Stable Diffusion for photo enhancement
+- Processing multiple images efficiently
+- Working with different enhancement presets
+- Handling GPU acceleration
+- Managing large batch operations
+
+## Getting Started
+
+### Requirements
 - Python 3.12 or higher
 - CUDA-compatible GPU (recommended)
 - At least 8GB RAM
 - Required Python packages (see `requirements.txt`)
 
-## Installation
 
-1. Clone the repository:
+
+### Installation
+
+1. Clone the tutorial repository:
 ```bash
 git clone https://github.com/{owner}/{repo}.git
 cd image-enhancement-tool
 ```
 
-2. Install dependencies:
+2. Set up your environment:
 ```bash
 pipenv install
 ```
 
-## Usage
+## How It Works
 
-Basic usage:
+This tool leverages Stable Diffusion to enhance photos using various presets. Here's what happens under the hood:
+1. Images are loaded and preprocessed
+2. The AI model applies enhancement based on selected preset
+3. Enhanced images are saved with metadata
+
+## Step-by-Step Usage
+
+### 1. Basic Enhancement
+Start with a simple enhancement of all images in a directory:
 ```bash
-python main.py <input_directory> [output_directory]
+python main.py ./my_images
+```
+tutorial-ai-photo-editing-tools
+
+
+### 2. Try Different Presets
+The tool includes several enhancement styles:
+- **Default**: Balanced, all-purpose enhancement
+- **Subtle**: Light touch-ups
+- **Natural**: Realistic improvements
+- **Maximum**: Professional-grade enhancement
+
+Sample all presets to see what works best:
+```bash
+python main.py ./my_images --sample
 ```
 
-Sample all presets:
+### 3. Customize Your Enhancement
+Choose a specific preset and size:
 ```bash
-python main.py <input_directory> --sample
-```
-
-Using specific preset:
-```bash
-python main.py <input_directory> --preset <preset_name>
+python main.py ./my_images --preset natural --size large
 ```
 
 ### Available Presets and Sizes
@@ -65,18 +88,6 @@ The tool includes several presets optimized for different enhancement needs:
 
 Image sizes range from small (768px) to extra-large (1440px). See `presets.py` for full details.
 
-### Examples
-
-```bash
-# Sample all presets (recommended for first use)
-python main.py ./my_images --sample
-
-# Use natural preset with large size
-python main.py ./my_images --preset natural --size large
-
-# Process photos with custom output directory
-python main.py ./my_images -o ./enhanced_photos --preset default --size xl
-```
 
 ### Output Structure
 
