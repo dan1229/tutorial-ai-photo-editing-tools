@@ -38,7 +38,7 @@ def load_pipeline() -> StableDiffusionImg2ImgPipeline:
         logging.info(f"Initializing pipeline with device: {device}, dtype: {dtype}")
 
         # Initialize pipeline with appropriate device settings
-        pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(
+        pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(  # type: ignore[no-untyped-call]
             "runwayml/stable-diffusion-v1-5",
             torch_dtype=dtype,
             use_safetensors=True,
