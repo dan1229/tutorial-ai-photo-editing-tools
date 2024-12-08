@@ -1,0 +1,15 @@
+media
+out
+output
+
+.env
+
+.DS_Store
+.DS_Store?
+._*
+
+types/
+.mypy_cache/
+*.pyc
+*.pyo
+*.pyd
