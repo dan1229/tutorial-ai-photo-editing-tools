@@ -1,30 +1,25 @@
-# Tutorial - AI Photo Editing Tools
+# AI Photo Enhancement Tools
 
 [![Python Checks](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml/badge.svg?branch=main&event=push&job=black)](https://github.com/dan1229/tutorial-ai-photo-editing-tools/actions/workflows/python-checks.yml)
 
-#### By [Daniel Nazarian](https://danielnazarian.com)
+A Python-based tool for bulk photo enhancement using Stable Diffusion. Automatically improve image quality, lighting, and details across entire directories of photos.
 
+## Features
 
-## Description
+- 🖼️ Batch photo enhancement using Stable Diffusion
+- 🎨 Multiple enhancement presets
+- 🚀 GPU acceleration support
+- 📁 Directory-based processing
+- 💾 Organized output structure
 
-Learn how to use open source AI models to enhance photos in bulk using Python and Stable Diffusion. This tutorial demonstrates how to build a practical tool for automatically improving image quality, lighting, and details across entire directories of photos.
+## Requirements
 
-### What You'll Learn
-- Using Stable Diffusion for photo enhancement
-- Processing multiple images efficiently
-- Working with enhancement presets
-- Handling GPU acceleration
-- Managing batch operations
-
-## Getting Started
-
-### Requirements
-- Python 3.12 or higher
+- Python 3.12+
 - CUDA-compatible GPU (recommended)
 - 8GB RAM minimum
-- Python packages listed in `Pipfile`
+- Dependencies in `Pipfile`
 
-### Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -32,52 +27,38 @@ git clone https://github.com/dan1229/tutorial-ai-photo-editing-tools.git
 cd tutorial-ai-photo-editing-tools
 ```
 
-2. Set up your environment:
+2. Install dependencies:
 ```bash
 pipenv install
 ```
 
-## How It Works
-
-This tool leverages Stable Diffusion to enhance photos using various presets. Here's what happens under the hood:
-1. Images are loaded and preprocessed
-2. The AI model applies enhancement based on selected preset
-3. Enhanced images are saved with metadata
-
 ## Usage
 
-### 1. Basic Enhancement
-Enhance all images in a directory:
+### Basic Enhancement
+
 ```bash
 python main.py ./my_images
 ```
 
-### 2. Preset Options
+### Enhancement Presets
 
-Available enhancement presets:
-
-- **Default**: Balanced, all-purpose enhancement
-- **Subtle**: Light touch-ups
+- **Default**: Balanced enhancement
+- **Subtle**: Minimal adjustments
 - **Natural**: Realistic improvements
-- **Maximum**: Professional-grade enhancement
+- **Maximum**: High-impact enhancement
 
 Try all presets:
-
 ```bash
 python main.py ./my_images --sample
 ```
 
-### 3. Custom Enhancement
-
-Specify a preset and size:
+### Custom Options
 
 ```bash
 python main.py ./my_images --preset natural --size large
 ```
 
-### Output Structure
-
-Enhanced images are organized as follows:
+## Output Structure
 
 ```
 out/enhanced_<input_dir>_<timestamp>/
@@ -86,16 +67,10 @@ out/enhanced_<input_dir>_<timestamp>/
         [enhanced images]
 ```
 
-When using --sample:
 
-```
-out/enhanced_<input_dir>_<timestamp>/
-    default_medium/
-    subtle_medium/
-    natural_medium/
-    maximum_medium/
-```
+
+## Customization
+
+Feel free to fork this repository and adapt it to your specific needs! The codebase is designed to be modular and extensible. You can easily add new presets, modify enhancement parameters, or integrate additional AI models to suit your project requirements.
 
 ---
-
-Copyright © 2024 [Daniel Nazarian](https://danielnazarian.com)

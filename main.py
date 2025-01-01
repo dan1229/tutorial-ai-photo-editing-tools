@@ -3,7 +3,6 @@ from diffusers import StableDiffusionImg2ImgPipeline
 from PIL import Image
 import os
 import signal
-from datetime import datetime
 import argparse
 from typing import Optional, Any
 from presets import PRESETS, SIZE_PRESETS
@@ -14,8 +13,7 @@ from scipy import ndimage
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
+    format="%(levelname)s - %(message)s",
 )
 
 # Global flag to indicate interruption during processing
@@ -27,8 +25,14 @@ def load_pipeline() -> StableDiffusionImg2ImgPipeline:
     """
     Initialize and configure the Stable Diffusion pipeline.
 
+    Automatically selects CUDA if available, falling back to CPU if not.
+    Optimizes memory usage and performance based on the available hardware.
+
     Returns:
         StableDiffusionImg2ImgPipeline: Configured pipeline ready for image processing
+
+    Raises:
+        Exception: If pipeline initialization fails, with detailed error information
     """
     try:
         # Determine device and dtype
@@ -89,12 +93,20 @@ def process_image(
     """
     Process a single image using the Stable Diffusion pipeline.
 
+    Handles image loading, resizing, and enhancement using the specified preset configuration.
+    Includes artifact detection and quality checks during processing.
+
     Args:
         input_image_path: Path to the input image
         output_image_path: Where to save the enhanced image
         pipeline: Configured Stable Diffusion pipeline
         preset: Name of the enhancement preset to use
-        size: Size preset for the output image
+        size: Size preset for the output image ("small", "medium", "large")
+
+    Raises:
+        ValueError: If pipeline returns invalid results
+        torch.cuda.OutOfMemoryError: If CUDA runs out of memory
+        Exception: For other processing errors
     """
     preset_config = PRESETS[preset]
     input_image: Optional[Image.Image] = None
@@ -294,11 +306,23 @@ def process_directory(
 def write_enhancement_metadata(
     output_directory: str, preset_name: str, size: str, sample: bool = False
 ) -> None:
-    """Write metadata about the enhancement process to a file."""
+    """
+    Write metadata about the enhancement process to a file.
+
+    Creates a text file containing configuration details and processing parameters
+    used for the enhancement, useful for reproducibility.
+
+    Args:
+        output_directory: Directory to write the metadata file
+        preset_name: Name of the preset used
+        size: Size preset used
+        sample: Whether this was part of a sample run
+    """
     preset_config = PRESETS[preset_name]
 
-    metadata = f"""Enhancement performed on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-SAMPLE: {sample}
+    # Simplify metadata to remove timestamps
+    metadata = f"""Enhancement Configuration
+{'SAMPLE RUN' if sample else 'SINGLE PRESET RUN'}
 Preset: {preset_config['name']} ({preset_name})
 Model: Stable Diffusion 1.5
 Size: {size} ({SIZE_PRESETS[size]}px)
@@ -316,7 +340,19 @@ Steps: {preset_config['num_inference_steps']}"""
 def main() -> None:
     """
     Main entry point for the image enhancement tool.
-    Handles argument parsing and orchestrates the enhancement process.
+
+    Provides a command-line interface for batch processing images using Stable Diffusion.
+    Supports both single preset and sample mode (trying all presets).
+
+    Example usage:
+        # Process images with default preset
+        python main.py input_directory
+
+        # Process images with specific preset and size
+        python main.py input_directory --preset enhance_sharp --size large
+
+        # Try all presets
+        python main.py input_directory --sample
     """
     parser = argparse.ArgumentParser(
         description="Enhance images using Stable Diffusion"
@@ -353,18 +389,12 @@ def main() -> None:
 
     args: argparse.Namespace = parser.parse_args()
 
-    # Set up base output directory with improved structure
+    # Simplify output directory structure
     if args.output:
         base_output_dir = args.output
     else:
-        # Format: 2024-03-15_14-30-45
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         input_dir_name = os.path.basename(os.path.normpath(args.input_directory))
-        base_output_dir = os.path.join(
-            "out",
-            input_dir_name,  # Group by input directory name
-            timestamp,  # Then by timestamp
-        )
+        base_output_dir = os.path.join("out", input_dir_name)
 
     # Print startup summary
     logging.info("\n=== Image Enhancement Tool ===")
