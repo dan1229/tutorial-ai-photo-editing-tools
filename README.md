@@ -36,6 +36,8 @@ pipenv install
 
 ### Basic Enhancement
 
+Run the script with the directory of images you want to enhance.
+
 ```bash
 python main.py ./my_images
 ```
@@ -58,7 +60,7 @@ python main.py ./my_images --sample
 python main.py ./my_images --preset natural --size large
 ```
 
-## Output Structure
+### Output Structure
 
 ```
 out/enhanced_<input_dir>_<timestamp>/
@@ -67,7 +69,42 @@ out/enhanced_<input_dir>_<timestamp>/
         [enhanced images]
 ```
 
+## Tutorial Version
 
+For those new to AI image enhancement, we provide a simplified `tutorial.py` that demonstrates the core concepts:
+
+### Features
+- 📚 Extensively documented code explaining each step
+- 🔰 Simplified implementation focused on learning
+- 🛠️ Basic image enhancement functionality
+- 📖 Clear examples of single image and batch processing
+
+### Usage
+
+```bash
+# Process a single image
+python tutorial.py
+
+# Or import and use the functions directly:
+from tutorial import enhance_image, process_directory
+
+# Process a directory of images
+process_directory(
+    input_dir="my_images",
+    output_dir="enhanced",
+    prompt="high quality photo with vivid colors",
+    strength=0.5
+)
+```
+
+### Key Parameters
+
+- `prompt`: Text description of desired enhancements
+- `strength`: Enhancement intensity (0.0 to 1.0)
+  - 0.0: No change
+  - 1.0: Maximum modification
+- `guidance_scale`: How closely to follow the prompt (default: 7.5)
+- `num_inference_steps`: Quality vs. speed tradeoff (default: 30)
 
 ## Customization
 
